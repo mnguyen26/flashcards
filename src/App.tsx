@@ -1,11 +1,13 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 
 import {MantineProvider, Button, MultiSelect} from '@mantine/core';
 import '@mantine/core/styles.css';
 
-import './App.css';
+import { IconArrowBadgeRight } from '@tabler/icons-react';
 
 import vietVoc from './cards.json'
+
+import './App.css';
 
 interface Card {
   Aside: string;
@@ -54,30 +56,27 @@ const CategoriesDropdown = (props: CategoriesDropdown) => {
 
 const FlashCards = (props: FlashCardsProps) => {
   const [currentCard, setCurrentCard] = useState<Card>(getRandomCard(props.cards))
-  const [ShowFront, setShowFront] = useState<boolean>(true);
-  const [FrontIsA, setFrontIsA] = useState<boolean>(true);
+  const [showFront, setShowFront] = useState<boolean>(true);
+  const [frontIsA, setFrontIsA] = useState<boolean>(true);
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
 
   const handleNextCard = () => {
-    setShowFront(true);
-    console.log(props.cards.length);
     const filteredCards = selectedCategories.length === 0 
-        ? props.cards 
-        : props.cards.filter(card => 
-            card.categories.some(category => selectedCategories.includes(category))
-        );
-
-    console.log(filteredCards.length);
-
+    ? props.cards 
+    : props.cards.filter(card => 
+      card.categories.some(category => selectedCategories.includes(category))
+    );
+    
+    setShowFront(true);
     setCurrentCard(getRandomCard(filteredCards));
   }
 
   const handleFlipDeck = () => {
-    setFrontIsA(!FrontIsA);
+    setFrontIsA(!frontIsA);
   }
 
   const handleFlipCard = () => {
-    setShowFront(!ShowFront);
+    setShowFront(!showFront);
   }
 
   const handleSelectCategories = (categories: string[]) => {
@@ -91,19 +90,39 @@ const FlashCards = (props: FlashCardsProps) => {
           cards={props.cards}
           handleSelectedCategories={handleSelectCategories}
         />
-        <div className="card-container"
-          onClick={handleFlipCard}
-        >
-          {((FrontIsA && ShowFront) || (!FrontIsA && !ShowFront)) &&(
-            currentCard.Aside
-          )}
-          {((FrontIsA && !ShowFront) || (!FrontIsA && ShowFront)) &&(
-            currentCard.Bside
-          )}
+
+        <div className="card-hor-container">
+          <div className="button-container" />
+          <div className="card-vert-container" key={currentCard.Aside}>
+            <div className={`card ${!showFront ? 'flipped' : ''}`}
+              onClick={handleFlipCard}
+              >
+              <div className="card card-front">
+                {frontIsA && (currentCard.Aside)}
+                {!frontIsA && (currentCard.Bside)}
+              </div>
+              <div className="card card-back">
+                {frontIsA && (currentCard.Bside)}
+                {!frontIsA && (currentCard.Aside)}
+              </div>
+            </div>
+          </div>
+          <div className="button-container">
+            <Button 
+              onClick={handleNextCard}
+              variant="transparent"
+              color="gray">
+              <IconArrowBadgeRight />
+            </Button>
+          </div>
         </div>
-        <Button onClick={handleNextCard}>Next Card</Button>
-        <br/>
-        <Button onClick={handleFlipDeck}>Flip Deck</Button>
+        <Button 
+          onClick={handleFlipDeck}
+          variant="outline"
+          color="gray"
+        >
+            Flip Deck
+          </Button>
       </div>
       </>
   )
