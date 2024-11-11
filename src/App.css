@@ -1,3 +1,12 @@
+.menu-button {
+  margin: 1em 0 0 1em;
+}
+
+.menu {
+  font-size: 1.5em;
+  cursor: pointer;
+}
+
 .cards-wrapper {
   margin: 2em 0 0 0;
   display: flex;
