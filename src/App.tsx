@@ -19,7 +19,7 @@ interface FlashCardsProps {
   cards: Card[];
 }
 
-interface CategoriesDropdown {
+interface CategoriesDropdownProps {
   cards: Card[];
   handleSelectedCategories: (categories: string[]) => void;
 }
@@ -31,7 +31,7 @@ const getRandomCard = (cards: Card[]):Card => {
   return randCard;
 }
 
-const CategoriesDropdown = (props: CategoriesDropdown) => {
+const CategoriesDropdown = (props: CategoriesDropdownProps) => {
   const [selectedCategories, setSelectedCategories] = useState<string[]>([])
 
   const categories = Array.from(new Set(props.cards.flatMap(card => card.categories)));
@@ -90,7 +90,7 @@ const FlashCards = (props: FlashCardsProps) => {
           cards={props.cards}
           handleSelectedCategories={handleSelectCategories}
         />
-
+        {/* MMN fix the width so it doesn't take up the entire width when several categories are selected */}
         <div className="card-hor-container">
           <div className="button-container" />
           <div className="card-vert-container" key={currentCard.Aside}>
@@ -123,6 +123,7 @@ const FlashCards = (props: FlashCardsProps) => {
         >
             Flip Deck
           </Button>
+          {/* MMN make this button less prominent */}
       </div>
       </>
   )
