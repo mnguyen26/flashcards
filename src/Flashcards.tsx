@@ -5,13 +5,8 @@ import '@mantine/core/styles.css';
 
 import { IconArrowBadgeRight } from '@tabler/icons-react';
 
+import { Card } from './App';
 import './App.css';
-
-interface Card {
-  Aside: string;
-  Bside: string;
-  categories: string[];
-}
 
 interface FlashCardsProps {
   cards: Card[];

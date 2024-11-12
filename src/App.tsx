@@ -1,12 +1,19 @@
 import { useState } from 'react';
 
 import { useDisclosure } from '@mantine/hooks';
-import {MantineProvider, Drawer, ActionIcon} from '@mantine/core';
+import {MantineProvider, Drawer} from '@mantine/core';
 
 import { MenuButton, Menu} from './Menu';
 import FlashCards from './Flashcards';
+import MatchGame from './Matching';
 
 import vietVoc from './cards.json'
+
+export interface Card {
+  Aside: string;
+  Bside: string;
+  categories: string[];
+}
 
 function App() {
   const [showFlashCards, setShowFlashCards] = useState<boolean>(true);
@@ -36,6 +43,7 @@ function App() {
       </Drawer>
       <MenuButton onClick={open} />
       {showFlashCards && (<FlashCards cards={vietVoc} />)}
+      {showMatchGame && (<MatchGame cards={vietVoc} />)}
     </MantineProvider>
     </>
   );
