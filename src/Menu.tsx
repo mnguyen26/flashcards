@@ -17,14 +17,16 @@ export const MenuButton = (props: MenuButtonProps) => {
 
     return (
         <>
-        <ActionIcon 
-            className="menu-button"
-            onClick={props.onClick}
-            radius="xl"
-            variant="default"
-        >
-            <IconMenu2 />
-        </ActionIcon>
+        <div className="menu-button">
+            <ActionIcon 
+                onClick={props.onClick}
+                radius="xl"
+                variant="default"
+            >
+                <IconMenu2 />
+            </ActionIcon>
+            Menu
+        </div>
         </>
     )
 }
@@ -33,15 +35,19 @@ export const Menu = (props: MenuProps) => {
     return (
     <>
     <div className="menu">
-        <div onClick={props.onFlashCardClick}>
+        Menu
+        <hr />
+        <div className="menu-item" onClick={props.onFlashCardClick}>
             Flash Cards
         </div>
-        <br />
-        <div onClick={props.onMatchingClick}>
+        <hr/>
+        <div className="menu-item" onClick={props.onMatchingClick}>
             Matching Game
         </div>
+        <hr/>
         <Select
-            label="Select Language"
+            className="menu-item"
+            label="Current Language"
             data={['Vietnamese', 'Spanish']}
             defaultValue={props.currentLanguage}
             onChange={props.onLanguageSelect}

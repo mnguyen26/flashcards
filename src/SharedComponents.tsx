@@ -23,8 +23,8 @@ export const CategoriesDropdown = (props: CategoriesDropdownProps) => {
         <>
         <div style={{width: '15em'}}>
         <MultiSelect
-            label="Categories"
-            placeholder="Filter Cards By a Category"
+            label="Filter Cards"
+            placeholder="Select one or more categories"
             data={categories}
             value={selectedCategories}
             onChange={handleCategoriesSelected}
