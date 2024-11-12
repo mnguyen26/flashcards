@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 
-import { Card } from './App';
+import { Card } from './FlashCardsModel';
 import './App.css';
 
 interface MatchGameProps {

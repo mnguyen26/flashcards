@@ -1,4 +1,4 @@
-import { ActionIcon } from '@mantine/core';
+import { ActionIcon, Select } from '@mantine/core';
 
 import { IconMenu2 } from '@tabler/icons-react';
 
@@ -9,6 +9,8 @@ interface MenuButtonProps {
 interface MenuProps {
     onFlashCardClick: () => void;
     onMatchingClick: () => void;
+    currentLanguage: string;
+    onLanguageSelect: (language: string | null) => void;
 }
 
 export const MenuButton = (props: MenuButtonProps) => {
@@ -38,6 +40,12 @@ export const Menu = (props: MenuProps) => {
         <div onClick={props.onMatchingClick}>
             Matching Game
         </div>
+        <Select
+            label="Select Language"
+            data={['Vietnamese', 'Spanish']}
+            defaultValue={props.currentLanguage}
+            onChange={props.onLanguageSelect}
+        />
     </div>
     </>
     )
