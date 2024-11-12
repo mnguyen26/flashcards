@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 
 import { Card } from './FlashCardsModel';
+import { CategoriesDropdown } from './SharedComponents';
 import './App.css';
 
 interface MatchGameProps {
@@ -16,6 +17,7 @@ const getRandomCard = (cards: Card[]):Card => {
   return randCard;
 }
 
+//MMN this is hit multiple times on initial render. investigate why
 const getCards = (deck: Card[], numCards: number):Card[] => {
   const cardsSet = new Set<string>();
   const cards: Card[] = [];
@@ -47,11 +49,19 @@ const getRandIndexes = ():number[] => {
 }
 
 const MatchGame = (props: MatchGameProps) => {
-  const [cardsLeft, setCardsleft] = useState<Card[]>(getCards(props.cards, NumCards));
+  const [cardsLeft, setCardsLeft] = useState<Card[]>(getCards(props.cards, NumCards));
   const [cardsRight, setCardsRight] = useState<Card[]>([]);
   const [selectedCardLeft, setSelectedCardLeft] = useState<Card|null>(null);
   const [selectedCardRight, setSelectedCardRight] = useState<Card|null>(null);
   const [matchedCards, setMatchedCards] = useState<string[]>([]);
+  const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
+  
+  useEffect(() => {
+    setCardsLeft(getCards(props.cards, NumCards));
+    setSelectedCardLeft(null);
+    setSelectedCardRight(null);
+    setMatchedCards([]);
+  },[props.cards]); //MMN make a defaults function
 
   useEffect(() => {
     const cards: Card[] = [];
@@ -78,7 +88,7 @@ const MatchGame = (props: MatchGameProps) => {
   useEffect(() => {
     if (matchedCards.length === NumCards) {
       setMatchedCards([]);
-      setCardsleft(getCards(props.cards, NumCards));
+      setCardsLeft(getCards(getFilteredCards(selectedCategories), NumCards));
     }
 
   }, [matchedCards]);
@@ -91,9 +101,31 @@ const MatchGame = (props: MatchGameProps) => {
     }
   }
 
+  const getFilteredCards = (categories: string[]):Card[] => {
+    const filteredCards = categories.length === 0
+    ? props.cards
+    : props.cards.filter(card =>
+      card.categories.some(category => categories.includes(category))
+    );
+
+    return filteredCards;
+  }
+
+  const handleSelectCategories = (categories: string[]) => {
+    setSelectedCategories(categories);
+
+    const filteredCards = getFilteredCards(categories);
+    
+    setCardsLeft(getCards(filteredCards, NumCards));
+    setSelectedCardLeft(null);
+    setSelectedCardRight(null);
+    setMatchedCards([]);
+  }
+
   return (
     <>
     <div className="matching-wrapper">
+      <CategoriesDropdown cards={props.cards} handleSelectedCategories={handleSelectCategories} />
       <div className="matching-container">
         <div className="matching-col" key="left">
           {cardsLeft.map((card: Card) => {

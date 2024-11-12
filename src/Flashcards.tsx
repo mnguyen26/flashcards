@@ -1,20 +1,16 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
-import {MantineProvider, Button, MultiSelect, Tooltip} from '@mantine/core';
+import {MantineProvider, Button, Tooltip} from '@mantine/core';
 import '@mantine/core/styles.css';
 
 import { IconArrowBadgeRight } from '@tabler/icons-react';
 
 import { Card } from './FlashCardsModel';
+import { CategoriesDropdown } from './SharedComponents';
 import './App.css';
 
 interface FlashCardsProps {
   cards: Card[];
-}
-
-interface CategoriesDropdownProps {
-  cards: Card[];
-  handleSelectedCategories: (categories: string[]) => void;
 }
 
 const getRandomCard = (cards: Card[]):Card => {
@@ -24,36 +20,17 @@ const getRandomCard = (cards: Card[]):Card => {
   return randCard;
 }
 
-const CategoriesDropdown = (props: CategoriesDropdownProps) => {
-  const [selectedCategories, setSelectedCategories] = useState<string[]>([])
-
-  const categories = Array.from(new Set(props.cards.flatMap(card => card.categories)));
-
-  const handleCategoriesSelected = (categories: string[]) => {
-    setSelectedCategories(categories);
-    props.handleSelectedCategories(categories);
-  }
-
-  return (
-    <>
-    <div style={{width: '15em'}}>
-      <MultiSelect
-        label="Categories"
-        placeholder="Filter Cards By a Category"
-        data={categories}
-        value={selectedCategories}
-        onChange={handleCategoriesSelected}
-      />
-    </div>
-    </>
-  )
-}
-
 const FlashCards = (props: FlashCardsProps) => {
   const [currentCard, setCurrentCard] = useState<Card>(getRandomCard(props.cards))
   const [showFront, setShowFront] = useState<boolean>(true);
   const [frontIsA, setFrontIsA] = useState<boolean>(true);
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
+
+  useEffect(() => {
+    setCurrentCard(getRandomCard(props.cards));
+    setShowFront(true);
+    setFrontIsA(true);
+  },[props.cards]); //MMN make a defaults function
 
   const handleNextCard = () => {
     const filteredCards = selectedCategories.length === 0 
