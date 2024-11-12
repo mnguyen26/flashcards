@@ -71,3 +71,32 @@
   transform: rotateY(180deg);
   background-color: rgb(221, 221, 216);
 }
+
+.matching-wrapper {
+  display: flex;
+  justify-content: center;
+}
+
+.matching-container {
+  display: flex;
+  justify-content: center;
+}
+
+.matching-col {
+  display: flex;
+  flex-direction: column;
+  margin: 0 .5em 0 .5em;
+}
+
+.match-card {
+  width: 12em;
+  height: 8em;
+  margin: .5em .2em .5em .2em;
+  background-color: rgb(240, 241, 221);
+  border-radius: 10px;
+  box-shadow: -2px 3px 4px 0px rgba(0, 0, 0, 0.1);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1em;
+}
