@@ -101,7 +101,7 @@ const MatchGame = (props: MatchGameProps) => {
             return (
               <div 
                 key={card.Aside}
-                className={`match-card fade-in ${isMatched ? 'matched' : selectedCardLeft === card ? 'selected' : ''}`}
+                className={`match-card ${isMatched ? 'matched' : selectedCardLeft === card ? 'selected' : ''}`}
                 onClick={() => handleSetCard(card, true)}>
                 {card.Aside}
               </div>
@@ -114,7 +114,7 @@ const MatchGame = (props: MatchGameProps) => {
             return (
               <div
                 key={card.Bside}
-                className={`match-card fade-in ${isMatched ? 'matched' : selectedCardRight === card ? 'selected' : ''}`}
+                className={`match-card ${isMatched ? 'matched' : selectedCardRight === card ? 'selected' : ''}`}
                 onClick={() => handleSetCard(card, false)}>
                 {card.Bside}
               </div>
