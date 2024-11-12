@@ -7,6 +7,8 @@ interface MatchGameProps {
     cards: Card[];
 }
 
+const NumCards = 5;
+
 const getRandomCard = (cards: Card[]):Card => {
   let randIndex = Math.floor(Math.random() * cards.length);
   let randCard = cards[randIndex];
@@ -34,9 +36,9 @@ const getCards = (deck: Card[], numCards: number):Card[] => {
 
 // MMN re-write this how you would
 const getRandIndexes = ():number[] => {
-  const indexes: number[] = [0, 1, 2, 3, 4];
+  const indexes: number[] = Array.from({ length: NumCards }, (_, i) => i);
   
-  for (let i=4 ; i>0; i--) {
+  for (let i=NumCards-1 ; i>0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
     [indexes[i], indexes[j]] = [indexes[j], indexes[i]];
   }
@@ -45,39 +47,47 @@ const getRandIndexes = ():number[] => {
 }
 
 const MatchGame = (props: MatchGameProps) => {
-  const [cardsLeft, setCardsleft] = useState<Card[]>(getCards(props.cards, 5));
+  const [cardsLeft, setCardsleft] = useState<Card[]>(getCards(props.cards, NumCards));
   const [cardsRight, setCardsRight] = useState<Card[]>([]);
   const [selectedCardLeft, setSelectedCardLeft] = useState<Card|null>(null);
   const [selectedCardRight, setSelectedCardRight] = useState<Card|null>(null);
+  const [matchedCards, setMatchedCards] = useState<string[]>([]);
 
   useEffect(() => {
     const cards: Card[] = [];
     const indexes = getRandIndexes();
 
-    for (let i=0; i<cardsLeft.length; i++) {
+    for (let i = 0; i < cardsLeft.length; i++) {
       cards.push(cardsLeft[indexes[i]]);
     }
 
     setCardsRight(cards);
-  },[cardsLeft])
+  }, [cardsLeft]);
 
   useEffect(() => {
     if (selectedCardLeft !== null && selectedCardRight !== null) {
       if (selectedCardLeft.Aside === selectedCardRight.Aside) {
-        console.log("MATCH!");
-      } else {
-        console.log("no");
+        setMatchedCards(prevMatches => [...prevMatches, selectedCardLeft.Aside]);
       }
+
       setSelectedCardLeft(null);
       setSelectedCardRight(null);
     }
   }, [selectedCardLeft, selectedCardRight]);
 
+  useEffect(() => {
+    if (matchedCards.length === NumCards) {
+      setMatchedCards([]);
+      setCardsleft(getCards(props.cards, NumCards));
+    }
+
+  }, [matchedCards]);
+
   const handleSetCard = (card: Card, leftCard: boolean) => {
     if (leftCard) {
-      setSelectedCardLeft(card);
+      setSelectedCardLeft(prevCard => prevCard === card ? null : card);
     } else {
-      setSelectedCardRight(card);
+      setSelectedCardRight(prevCard => prevCard === card ? null : card);
     }
   }
 
@@ -85,23 +95,27 @@ const MatchGame = (props: MatchGameProps) => {
     <>
     <div className="matching-wrapper">
       <div className="matching-container">
-        <div className="matching-col">
+        <div className="matching-col" key="left">
           {cardsLeft.map((card: Card) => {
+            const isMatched = matchedCards.includes(card.Aside);
             return (
               <div 
-              className="match-card"
-              onClick={() => handleSetCard(card, true)}>
+                key={card.Aside}
+                className={`match-card ${isMatched ? 'matched' : selectedCardLeft === card ? 'selected' : ''}`}
+                onClick={() => handleSetCard(card, true)}>
                 {card.Aside}
               </div>
             )
           })}
         </div>
-        <div className="matching-col">
+        <div className="matching-col" key="right">
         {cardsRight.map((card: Card) => {
+            const isMatched = matchedCards.includes(card.Aside);
             return (
-              <div 
-              className="match-card"
-              onClick={() => handleSetCard(card, false)}>
+              <div
+                key={card.Bside}
+                className={`match-card ${isMatched ? 'matched' : selectedCardRight === card ? 'selected' : ''}`}
+                onClick={() => handleSetCard(card, false)}>
                 {card.Bside}
               </div>
             )

@@ -99,4 +99,18 @@
   justify-content: center;
   align-items: center;
   font-size: 1em;
+  transition: background-color 1s, box-shadow 1s, opacity 1s;
+}
+
+.match-card.selected {
+  background-color: #f0f0f0;
+  outline: 3px solid #007bff; 
+}
+
+.match-card.matched {
+  background-color: transparent;
+  box-shadow: none;
+  color: transparent;
+  opacity: 0;
+  transition: opacity 1s ease-out, background-color 1s, box-shadow 1s;
 }
