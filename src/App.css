@@ -47,6 +47,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  text-align: center;
   position: relative;
   transition: transform 0.2s;
   transform-style: preserve-3d;
@@ -112,7 +113,7 @@
   font-size: 1em;
   text-align: center;
   transition: background-color 1s, box-shadow 1s;
-  animation: fadeIn 1s ease-in; /* Apply the fade-in animation */
+  animation: fadeIn 1s ease-in;
 }
 
 .match-card.selected {

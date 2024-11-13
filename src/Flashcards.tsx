@@ -26,19 +26,23 @@ const FlashCards = (props: FlashCardsProps) => {
   const [frontIsA, setFrontIsA] = useState<boolean>(true);
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
 
+  const filterCards = (cards: Card[]): Card[] => {
+    return selectedCategories.length === 0 
+      ? cards 
+      : cards.filter(card => 
+          card.categories.some(category => selectedCategories.includes(category))
+        );
+  }
+
   useEffect(() => {
-    setCurrentCard(getRandomCard(props.cards));
+    const filteredCards = filterCards(props.cards);
+    setCurrentCard(getRandomCard(filteredCards));
     setShowFront(true);
     setFrontIsA(true);
-  },[props.cards]); //MMN make a defaults function
+  }, [selectedCategories]);
 
   const handleNextCard = () => {
-    const filteredCards = selectedCategories.length === 0 
-    ? props.cards 
-    : props.cards.filter(card => 
-      card.categories.some(category => selectedCategories.includes(category))
-    );
-    
+    const filteredCards = filterCards(props.cards);
     setShowFront(true);
     setCurrentCard(getRandomCard(filteredCards));
   }
