@@ -2,6 +2,10 @@
 
 A flashcards app to help me study
 
+## Try It Out
+
+Check out the app here: (https://mnguyen26.github.io/flashcards)
+
 ## How To
 
 Currently there are only two modes: flash card mode and matching mode
