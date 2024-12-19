@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 import { useDisclosure } from '@mantine/hooks';
 import {MantineProvider, Drawer} from '@mantine/core';
@@ -7,14 +7,28 @@ import { MenuButton, Menu} from './Menu';
 import FlashCards from './Flashcards';
 import MatchGame from './Matching';
 
-import { Card, LanguageMap } from './FlashCardsModel';
+import { Card } from './FlashCardsModel';
+import { getCardsByDeck } from './Services/CardService';
 
 function App() {
   const [showFlashCards, setShowFlashCards] = useState<boolean>(true);
   const [showMatchGame, setShowMatchGame] = useState<boolean>(false);
   const [opened, { open, close }] = useDisclosure(false);
   const [language, setLanguage] = useState<string>("Vietnamese");
-  const [cards, setCards] = useState<Card[]>(LanguageMap["Vietnamese"]);
+  const [cards, setCards] = useState<Card[]>([{ id: 1, front: '', back: '', deck: '', categories: [] }]);
+
+  const getAPICardsByDeck = async (deck: string) => {
+    try {
+      const data = await getCardsByDeck(deck);
+      setCards(data);
+    } catch (err) {
+      // setError(err.message);
+    }
+  };
+
+  useEffect(() => {
+    getAPICardsByDeck(language);
+  }, [language]);
 
   const handleFlashCardClick = () => {
     setShowFlashCards(true);
@@ -33,7 +47,6 @@ function App() {
   const handleLanguageChange = (language: string | null) => {
     if (language) {
       setLanguage(language);
-      setCards(LanguageMap[language]);
     }
   }
 

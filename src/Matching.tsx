@@ -39,7 +39,7 @@ const MatchGame = (props: MatchGameProps) => {
     const selectedCards = getRandCards();
     setLeftCards(selectedCards);
     setRightCards([...selectedCards].sort(() => Math.random() - 0.5));
-  }, [categories]);
+  }, [props.cards, categories]);
 
   useEffect(() => {
     if (selected.left && selected.right) {
@@ -79,7 +79,7 @@ const MatchGame = (props: MatchGameProps) => {
                 key={card.id+"A"}
                 className={`match-card ${selected.left === card.id ? 'selected' : matches.includes(card.id) ? 'matched' : ''}`}
                 onClick={() => handleSelect(card.id, "left")}>
-                {card.Aside}
+                {card.front}
               </div>
             )
           })}
@@ -91,7 +91,7 @@ const MatchGame = (props: MatchGameProps) => {
                 key={card.id+"B"}
                 className={`match-card ${selected.right === card.id ? 'selected' : matches.includes(card.id) ? 'matched' : ''}`}
                 onClick={() => handleSelect(card.id, "right")}>
-                {card.Bside}
+                {card.back}
               </div>
             )
           })}

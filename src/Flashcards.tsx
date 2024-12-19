@@ -39,7 +39,7 @@ const FlashCards = (props: FlashCardsProps) => {
     setCurrentCard(getRandomCard(filteredCards));
     setShowFront(true);
     setFrontIsA(true);
-  }, [selectedCategories]);
+  }, [props.cards, selectedCategories]);
 
   const handleNextCard = () => {
     const filteredCards = filterCards(props.cards);
@@ -70,17 +70,17 @@ const FlashCards = (props: FlashCardsProps) => {
         />
         <div className="card-hor-container">
           <div className="button-container" />
-          <div className="card-vert-container" key={currentCard.Aside}>
+          <div className="card-vert-container" key={currentCard.front}>
             <div className={`card ${!showFront ? 'flipped' : ''}`}
               onClick={handleFlipCard}
               >
               <div className="card card-front">
-                {frontIsA && (currentCard.Aside)}
-                {!frontIsA && (currentCard.Bside)}
+                {frontIsA && (currentCard.front)}
+                {!frontIsA && (currentCard.back)}
               </div>
               <div className="card card-back">
-                {frontIsA && (currentCard.Bside)}
-                {!frontIsA && (currentCard.Aside)}
+                {frontIsA && (currentCard.back)}
+                {!frontIsA && (currentCard.front)}
               </div>
             </div>
           </div>

@@ -1,6 +1,6 @@
 [
     { "id":1, "Aside": "hola", "Bside": "hello", "categories": ["common phrases"] },
-    { "id":2, "Aside": "adiós", "Bside": "goodbye", "categories": ["greecommon phrases"] },
+    { "id":2, "Aside": "adiós", "Bside": "goodbye", "categories": ["common phrases"] },
     { "id":3, "Aside": "por favor", "Bside": "please", "categories": ["common phrases"] },
     { "id":4, "Aside": "gracias", "Bside": "thank you", "categories": ["common phrases"] },
     { "id":5, "Aside": "sí", "Bside": "yes", "categories": ["common phrases"] },

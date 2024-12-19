@@ -3,12 +3,13 @@ import spanishVoc from './cards/spanishcards.json';
 
 export interface Card {
     id: number;
-    Aside: string;
-    Bside: string;
+    front: string;
+    back: string;
+    deck: string;
     categories: string[];
 }
 
-export const LanguageMap: { [key: string]: Card[] } = {
-    Vietnamese: vietVoc,
-    Spanish: spanishVoc,
-};
+// export const LanguageMap: { [key: string]: Card[] } = {
+//     Vietnamese: vietVoc,
+//     Spanish: spanishVoc,
+// };
