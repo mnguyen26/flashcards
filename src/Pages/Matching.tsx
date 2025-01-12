@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react';
 
-import { Card } from './FlashCardsModel';
-import { CategoriesDropdown } from './SharedComponents';
-import './App.css';
+import { Card } from '../Models/FlashCardsModel';
+import { CategoriesDropdown } from '../SharedComponents';
+import '../css/App.css';
 
 interface MatchGameProps {
     cards: Card[];

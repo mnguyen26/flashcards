@@ -9,6 +9,7 @@ interface MenuButtonProps {
 interface MenuProps {
     onFlashCardClick: () => void;
     onMatchingClick: () => void;
+    onListClick: () => void;
     currentLanguage: string;
     onLanguageSelect: (language: string | null) => void;
 }
@@ -43,6 +44,10 @@ export const Menu = (props: MenuProps) => {
         <hr/>
         <div className="menu-item" onClick={props.onMatchingClick}>
             Matching Game
+        </div>
+        <hr/>
+        <div className="menu-item" onClick={props.onListClick}>
+            Word List
         </div>
         <hr/>
         <Select

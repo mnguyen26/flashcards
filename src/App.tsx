@@ -4,15 +4,17 @@ import { useDisclosure } from '@mantine/hooks';
 import {MantineProvider, Drawer} from '@mantine/core';
 
 import { MenuButton, Menu} from './Menu';
-import FlashCards from './Flashcards';
-import MatchGame from './Matching';
+import FlashCards from './Pages/Flashcards';
+import MatchGame from './Pages/Matching';
+import List from './Pages/List';
 
-import { Card } from './FlashCardsModel';
+import { Card } from './Models/FlashCardsModel';
 import { getCardsByDeck } from './Services/CardService';
 
 function App() {
   const [showFlashCards, setShowFlashCards] = useState<boolean>(true);
   const [showMatchGame, setShowMatchGame] = useState<boolean>(false);
+  const [showList, setShowList] = useState<boolean>(false);
   const [opened, { open, close }] = useDisclosure(false);
   const [language, setLanguage] = useState<string>("Vietnamese");
   const [cards, setCards] = useState<Card[]>([{ id: 1, front: '', back: '', deck: '', categories: [] }]);
@@ -31,15 +33,25 @@ function App() {
   }, [language]);
 
   const handleFlashCardClick = () => {
-    setShowFlashCards(true);
     setShowMatchGame(false);
+    setShowList(false);
+    setShowFlashCards(true);
 
     close();
   }
 
   const handleMatchingClick = () => {
     setShowFlashCards(false);
+    setShowList(false);
     setShowMatchGame(true);
+
+    close();
+  }
+
+  const handleListClick = () => {
+    setShowFlashCards(false);
+    setShowMatchGame(false);
+    setShowList(true);
 
     close();
   }
@@ -55,11 +67,17 @@ function App() {
     <MantineProvider>
       
       <Drawer opened={opened} onClose={close} >
-        <Menu onFlashCardClick={handleFlashCardClick} onMatchingClick={handleMatchingClick} onLanguageSelect={handleLanguageChange} currentLanguage={language}/>
+        <Menu 
+          onFlashCardClick={handleFlashCardClick} 
+          onMatchingClick={handleMatchingClick} 
+          onListClick={handleListClick}
+          onLanguageSelect={handleLanguageChange} 
+          currentLanguage={language}/>
       </Drawer>
       <MenuButton onClick={open} />
       {showFlashCards && (<FlashCards cards={cards} />)}
       {showMatchGame && (<MatchGame cards={cards} />)}
+      {showList && (<List cards={cards} />)}
     </MantineProvider>
     </>
   );

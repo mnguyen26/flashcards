@@ -2,7 +2,7 @@ import { useState } from 'react';
 
 import { MultiSelect } from '@mantine/core';
 
-import { Card } from './FlashCardsModel';
+import { Card } from './Models/FlashCardsModel';
 
 interface CategoriesDropdownProps {
     cards: Card[];
