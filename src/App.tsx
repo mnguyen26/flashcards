@@ -11,6 +11,10 @@ import List from './Pages/List';
 import { Card } from './Models/FlashCardsModel';
 import { getCardsByDeck } from './Services/CardService';
 
+import '@mantine/core/styles.layer.css';
+import 'mantine-datatable/styles.layer.css';
+import './css/Layout.css';
+
 function App() {
   const [showFlashCards, setShowFlashCards] = useState<boolean>(true);
   const [showMatchGame, setShowMatchGame] = useState<boolean>(false);
@@ -65,7 +69,6 @@ function App() {
   return (
     <>
     <MantineProvider>
-      
       <Drawer opened={opened} onClose={close} >
         <Menu 
           onFlashCardClick={handleFlashCardClick} 

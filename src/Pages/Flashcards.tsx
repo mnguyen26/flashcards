@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 
 import {MantineProvider, Button, Tooltip} from '@mantine/core';
-import '@mantine/core/styles.css';
+// import '@mantine/core/styles.css';
 
 import { IconArrowBadgeRight } from '@tabler/icons-react';
 

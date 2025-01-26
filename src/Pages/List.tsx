@@ -1,47 +1,46 @@
-import { MantineProvider, Table, TableData } from '@mantine/core';
+import { useState, useEffect } from 'react';
+
+import { DataTable, type DataTableSortStatus } from 'mantine-datatable';
+import sortBy from 'lodash/sortBy';
 
 import { Card } from '../Models/FlashCardsModel';
-
-import '../css/App.css';
 
 interface ListProps {
     cards: Card[];
 }
 
 const List = (props: ListProps) => {
+    const [sortStatus, setSortStatus] = useState<DataTableSortStatus<Card>>({
+        columnAccessor: 'categories',
+        direction: 'asc',
+    });
+    const [records, setRecords] = useState<Card[]>(sortBy(props.cards, 'categories'));
 
-    const rows = props.cards.map((word) => (
-        <Table.Tr key={word.id}>
-            <Table.Td>{word.front}</Table.Td>
-            <Table.Td>{word.back}</Table.Td>
-            <Table.Td>{word.deck}</Table.Td>
-            <Table.Td>{word.categories}</Table.Td>
-        </Table.Tr>
-        ));
-
-    const ths = (
-        <Table.Tr>
-            <Table.Th>Front</Table.Th>
-            <Table.Th>Back</Table.Th>
-            <Table.Th>Deck</Table.Th>
-            <Table.Th>Categories</Table.Th>
-        </Table.Tr>
-        );
+    useEffect(() => {
+        const data = sortBy(props.cards, sortStatus.columnAccessor) as Card[];
+        setRecords(sortStatus.direction === 'desc' ? data.reverse() : data);
+    }, [sortStatus]);
 
     return (
-        <>
-        <MantineProvider>
         <div className="list-container">
-        <Table.ScrollContainer minWidth={100}>
-        <Table stickyHeader stickyHeaderOffset={0} striped highlightOnHover withTableBorder>
-            <Table.Thead>{ths}</Table.Thead>
-            <Table.Tbody>{rows}</Table.Tbody>
-        </Table>
-        </Table.ScrollContainer>
+            <DataTable
+                height={800}
+                withTableBorder
+                striped
+                highlightOnHover
+                shadow="xl"
+                columns={[ 
+                    { accessor: 'front', sortable: true }, 
+                    { accessor: 'back', sortable: true }, 
+                    { accessor: 'deck' }, 
+                    { accessor: 'categories', sortable: true }
+                ]}
+                records={records}
+                sortStatus={sortStatus}
+                onSortStatusChange={setSortStatus}
+            />
         </div>
-        </MantineProvider>
-        </>
-    )
-}
+    );
+  }
 
 export default List;
